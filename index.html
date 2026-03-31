@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SCI VERSA 4 — Impact Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Playfair+Display:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000926;
+      min-height: 100vh;
+    }
+
+    .sv {
+      background: #000926;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      padding: 2.5rem 2rem 2rem;
+      min-height: 100vh;
+      max-width: 960px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── HEADER ── */
+    .sv-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(155,142,196,0.25);
+      opacity: 0;
+      transform: translateY(-16px);
+      animation: fadeDown 0.7s ease forwards;
+    }
+    .sv-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      line-height: 1;
+    }
+    .sv-sci  { color: #7FBF7F; }
+    .sv-versa{ color: #B8A8DC; }
+    .sv-dna  { width: 42px; height: 42px; margin: 0 6px; }
+    .sv-head-right { flex: 1; }
+    .sv-eyebrow {
+      font-size: 10px; letter-spacing: 0.15em;
+      color: #7FBF7F; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .sv-head-title {
+      font-family: 'Playfair Display', serif; font-weight: 400;
+      font-size: 22px; color: #F0EEF8;
+    }
+    .sv-head-sub {
+      font-size: 10px; letter-spacing: 0.08em;
+      color: rgba(176,166,210,0.55); text-transform: uppercase; margin-top: 3px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 10px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #B8A8DC;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
+      opacity: 0; animation: fadeIn 0.6s ease forwards;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(155,142,196,0.2);
+    }
+
+    /* ── CARDS ── */
+    .grid3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px; margin-bottom: 2rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 1.2rem 1.1rem 1rem;
+      position: relative; overflow: hidden;
+      opacity: 0; transform: translateY(20px);
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    .card.visible { animation: cardIn 0.55s ease forwards; }
+
+    .card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; width: 3px; height: 100%;
+      border-radius: 14px 0 0 14px;
+      transition: width 0.3s ease;
+    }
+    .card:hover::before { width: 5px; }
+    .green-acc::before  { background: #7FBF7F; }
+    .purple-acc::before { background: #B8A8DC; }
+    .gold-acc::before   { background: #C9A84C; }
+
+    .card-inner { padding-left: 10px; }
+    .card-num {
+      font-family: 'Playfair Display', serif; font-weight: 400;
+      font-size: 38px; line-height: 1; margin-bottom: 5px;
+    }
+    .card-num .suffix { font-size: 20px; opacity: 0.7; }
+    .num-green  { color: #7FBF7F; }
+    .num-purple { color: #B8A8DC; }
+    .num-gold   { color: #C9A84C; }
+    .card-label {
+      font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(220,215,240,0.5);
+    }
+
+    /* ── SATISFACTION ── */
+    .sat-wrap {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 1.4rem 1.5rem;
+      display: flex; align-items: center; gap: 28px;
+      margin-bottom: 2rem;
+      opacity: 0; transform: translateY(20px);
+      transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .sat-wrap.visible { animation: cardIn 0.55s ease forwards; }
+    .sat-wrap:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(0,0,0,0.35);
+    }
+    .sat-score-block { min-width: 90px; }
+    .sat-score {
+      font-family: 'Playfair Display', serif; font-weight: 400;
+      font-size: 54px; color: #7FBF7F; line-height: 1;
+    }
+    .sat-denom {
+      font-family: 'Playfair Display', serif; font-weight: 400;
+      font-size: 22px; color: rgba(127,191,127,0.5);
+    }
+    .sat-stars { display: flex; gap: 5px; margin-top: 8px; }
+    .star { width: 13px; height: 13px; border-radius: 2px; }
+    .sf { background: #C9A84C; }
+    .sh { background: linear-gradient(90deg,#C9A84C 50%,rgba(201,168,76,0.2) 50%); }
+    .sat-label {
+      font-size: 9px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(220,215,240,0.4); margin-top: 5px;
+    }
+    .sat-bar-side { flex: 1; }
+    .bar-meta {
+      display: flex; justify-content: space-between;
+      font-size: 10px; color: rgba(220,215,240,0.45); margin-bottom: 6px;
+    }
+    .bar-track {
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px; height: 8px; overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 20px;
+      background: linear-gradient(90deg, #7FBF7F, #B8A8DC);
+      width: 0%; transition: width 1.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .sat-desc {
+      font-family: 'Playfair Display', serif; font-weight: 400;
+      font-size: 13px; color: rgba(220,215,240,0.45);
+      margin-top: 10px; font-style: italic;
+    }
+
+    /* ── BOTTOM GRID ── */
+    .bottom-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 2rem;
+    }
+    .chart-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 1.2rem 1.3rem;
+      opacity: 0; transform: translateY(20px);
+      transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .chart-card.visible { animation: cardIn 0.55s ease forwards; }
+    .chart-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.13);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(0,0,0,0.35);
+    }
+    .chart-title {
+      font-size: 10px; letter-spacing: 0.13em;
+      text-transform: uppercase; color: rgba(220,215,240,0.45);
+      margin-bottom: 16px;
+    }
+
+    /* Horizontal bars */
+    .hbar { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .hbar-label {
+      font-size: 10px; letter-spacing: 0.05em;
+      color: rgba(220,215,240,0.5); min-width: 115px; text-transform: uppercase;
+    }
+    .hbar-track {
+      flex: 1; background: rgba(255,255,255,0.07);
+      border-radius: 4px; height: 9px; overflow: hidden;
+    }
+    .hbar-fill {
+      height: 100%; border-radius: 4px;
+      width: 0%; transition: width 1.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .hbar-val {
+      font-family: 'Playfair Display', serif; font-weight: 400;
+      font-size: 16px; color: #F0EEF8; min-width: 26px; text-align: right;
+    }
+
+    /* Sci items */
+    .sci-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: padding-left 0.25s ease;
+    }
+    .sci-item:last-child { border-bottom: none; }
+    .sci-item:hover { padding-left: 6px; }
+    .sci-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .sci-num {
+      font-family: 'Playfair Display', serif; font-weight: 400;
+      font-size: 26px; color: #F0EEF8; min-width: 36px;
+    }
+    .sci-lbl {
+      font-size: 10px; letter-spacing: 0.07em;
+      text-transform: uppercase; color: rgba(220,215,240,0.5);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1rem; border-top: 1px solid rgba(155,142,196,0.15);
+      opacity: 0; animation: fadeIn 0.6s 1.1s ease forwards;
+    }
+    .footer-tag {
+      font-size: 9px; letter-spacing: 0.12em;
+      color: rgba(176,166,210,0.35); text-transform: uppercase;
+    }
+    .badges { display: flex; gap: 6px; }
+    .badge {
+      font-size: 9px; letter-spacing: 0.08em;
+      padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      cursor: default;
+    }
+    .badge:hover { transform: scale(1.08); opacity: 0.85; }
+    .bg { background: rgba(127,191,127,0.12); color: #7FBF7F; border: 1px solid rgba(127,191,127,0.2); }
+    .bp { background: rgba(184,168,220,0.12); color: #B8A8DC; border: 1px solid rgba(184,168,220,0.2); }
+    .bo { background: rgba(201,168,76,0.12); color: #C9A84C; border: 1px solid rgba(201,168,76,0.2); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .grid3        { grid-template-columns: 1fr; }
+      .bottom-grid  { grid-template-columns: 1fr; }
+      .sat-wrap     { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .sv-header    { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<div class="sv">
+
+  <!-- HEADER -->
+  <div class="sv-header">
+    <div class="sv-logo">
+      <span class="sv-sci">Sci</span>
+      <svg class="sv-dna" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="21" cy="21" rx="13" ry="13" stroke="#B8A8DC" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M15 11 Q21 21 15 31" stroke="#7FBF7F" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M27 11 Q21 21 27 31" stroke="#7FBF7F" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <line x1="15.5" y1="16" x2="26.5" y2="16" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="14"   y1="21" x2="28"   y2="21" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="15.5" y1="26" x2="26.5" y2="26" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/>
+        <circle cx="21" cy="7"  r="2.5" fill="#C9A84C" opacity="0.6"/>
+        <circle cx="21" cy="35" r="2.5" fill="#C9A84C" opacity="0.6"/>
+      </svg>
+      <span class="sv-versa">Versa</span>
+    </div>
+    <div class="sv-head-right">
+      <div class="sv-eyebrow">Scientific Majors Forum</div>
+      <div class="sv-head-title">SCI VERSA 4 — Impact Report</div>
+      <div class="sv-head-sub">4th Edition · Annual Dashboard</div>
+    </div>
+  </div>
+
+  <!-- BIG PICTURE -->
+  <div class="section-label" style="animation-delay:0.15s;">The Big Picture</div>
+
+  <div class="grid3">
+    <div class="card green-acc" data-delay="0.2">
+      <div class="card-inner">
+        <div class="card-num num-green">
+          <span class="counter" data-target="3100" data-suffix="+">0</span>
+        </div>
+        <div class="card-label">Total Engagement</div>
+      </div>
+    </div>
+    <div class="card purple-acc" data-delay="0.32">
+      <div class="card-inner">
+        <div class="card-num num-purple">
+          <span class="counter" data-target="500" data-suffix="+">0</span>
+        </div>
+        <div class="card-label">Physical Attendees</div>
+      </div>
+    </div>
+    <div class="card gold-acc" data-delay="0.44">
+      <div class="card-inner">
+        <div class="card-num num-gold">
+          <span class="counter" data-target="4.5" data-suffix="/5" data-decimal="1">0</span>
+        </div>
+        <div class="card-label">Overall Satisfaction</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SATISFACTION -->
+  <div class="sat-wrap" data-delay="0.5">
+    <div class="sat-score-block">
+      <div class="sat-score">4.5<span class="sat-denom">/5</span></div>
+      <div class="sat-stars">
+        <div class="star sf"></div><div class="star sf"></div>
+        <div class="star sf"></div><div class="star sf"></div>
+        <div class="star sh"></div>
+      </div>
+      <div class="sat-label">Overall Satisfaction</div>
+    </div>
+    <div class="sat-bar-side">
+      <div class="bar-meta"><span>Satisfaction Score</span><span>90%</span></div>
+      <div class="bar-track">
+        <div class="bar-fill" data-width="90"></div>
+      </div>
+      <div class="sat-desc">Rated by attendees across all event activities and sessions.</div>
+    </div>
+  </div>
+
+  <!-- BEHIND THE SCENES -->
+  <div class="section-label" style="animation-delay:0.55s;">Behind the Scenes</div>
+
+  <div class="grid3">
+    <div class="card gold-acc" data-delay="0.6">
+      <div class="card-inner">
+        <div class="card-num num-gold">
+          <span class="counter" data-target="568">0</span>
+        </div>
+        <div class="card-label">Hours of Dedication</div>
+      </div>
+    </div>
+    <div class="card purple-acc" data-delay="0.72">
+      <div class="card-inner">
+        <div class="card-num num-purple">
+          <span class="counter" data-target="31">0</span>
+        </div>
+        <div class="card-label">Dept. Representatives</div>
+      </div>
+    </div>
+    <div class="card green-acc" data-delay="0.84">
+      <div class="card-inner">
+        <div class="card-num num-green">
+          <span class="counter" data-target="34">0</span>
+        </div>
+        <div class="card-label">Volunteers & Council</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM GRID -->
+  <div class="bottom-grid">
+    <div class="chart-card" data-delay="0.9">
+      <div class="chart-title">Team Breakdown</div>
+      <div class="hbar">
+        <div class="hbar-label">Volunteers</div>
+        <div class="hbar-track"><div class="hbar-fill" style="background:#B8A8DC;" data-width="74"></div></div>
+        <div class="hbar-val">23</div>
+      </div>
+      <div class="hbar">
+        <div class="hbar-label">Student Council</div>
+        <div class="hbar-track"><div class="hbar-fill" style="background:#7FBF7F;" data-width="35"></div></div>
+        <div class="hbar-val">11</div>
+      </div>
+      <div class="hbar">
+        <div class="hbar-label">Dept. Reps</div>
+        <div class="hbar-track"><div class="hbar-fill" style="background:#C9A84C;" data-width="100"></div></div>
+        <div class="hbar-val">31</div>
+      </div>
+    </div>
+
+    <div class="chart-card" data-delay="1.0">
+      <div class="chart-title">Scientific Value & Reach</div>
+      <div class="sci-item">
+        <div class="sci-dot" style="background:#7FBF7F;"></div>
+        <div class="sci-num"><span class="counter" data-target="8">0</span></div>
+        <div class="sci-lbl">Alumni Speakers</div>
+      </div>
+      <div class="sci-item">
+        <div class="sci-dot" style="background:#B8A8DC;"></div>
+        <div class="sci-num"><span class="counter" data-target="6">0</span></div>
+        <div class="sci-lbl">Scientific Posters</div>
+      </div>
+      <div class="sci-item">
+        <div class="sci-dot" style="background:#C9A84C;"></div>
+        <div class="sci-num"><span class="counter" data-target="11">0</span></div>
+        <div class="sci-lbl">Poster Presenters</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-tag">SCI VERSA · 4th Edition · Scientific Majors Forum</div>
+    <div class="badges">
+      <span class="badge bg">Science</span>
+      <span class="badge bp">Research</span>
+      <span class="badge bo">Innovation</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ── Intersection Observer: trigger card entrance + bars ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const delay = parseFloat(el.dataset.delay || 0);
+
+      setTimeout(() => {
+        el.classList.add('visible');
+        el.style.animationDelay = '0s';
+
+        /* Animate bar fills inside this element */
+        el.querySelectorAll('.bar-fill, .hbar-fill').forEach(bar => {
+          const w = bar.dataset.width;
+          if (w) setTimeout(() => bar.style.width = w + '%', 100);
+        });
+
+        /* Animate counters inside this element */
+        el.querySelectorAll('.counter').forEach(animateCounter);
+
+      }, delay * 1000);
+
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.card, .sat-wrap, .chart-card').forEach(el => observer.observe(el));
+
+  /* Also fire bars/counters in sat-wrap which is observed above */
+
+  /* ── Counter animation ── */
+  function animateCounter(el) {
+    const target  = parseFloat(el.dataset.target);
+    const suffix  = el.dataset.suffix  || '';
+    const decimal = parseInt(el.dataset.decimal || 0);
+    const duration = 1400;
+    const start = performance.now();
+
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 4);
+      const value = target * ease;
+      el.textContent = (decimal > 0 ? value.toFixed(decimal) : Math.round(value).toLocaleString()) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+</script>
+</body>
+</html>
